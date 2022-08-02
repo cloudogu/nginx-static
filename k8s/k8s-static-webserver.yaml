@@ -1,0 +1,101 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: k8s-static-webserver
+  labels:
+    app: k8s-static-webserver
+    app.kubernetes.io/name: k8s-static-webserver
+spec:
+  ingressClassName: k8s-ecosystem-ces-service
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: k8s-static-webserver
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-static-webserver
+  labels:
+    app: k8s-static-webserver
+    app.kubernetes.io/name: k8s-static-webserver
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+  selector:
+    app.kubernetes.io/name: k8s-static-webserver
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-static-webserver
+  labels:
+    app: k8s-static-webserver
+    app.kubernetes.io/name: k8s-static-webserver
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: k8s-static-webserver
+  template:
+    metadata:
+      labels:
+        app: k8s-static-webserver
+        app.kubernetes.io/name: k8s-static-webserver
+    spec:
+      hostname: nginx
+      containers:
+        - name: k8s-static-webserver
+          image: "cloudogu/k8s-static-webserver:0.0.0"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            failureThreshold: 3
+            periodSeconds: 10
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: menu-json-volume
+              mountPath: /usr/share/nginx/html/warp/menu
+      volumes:
+        - name: menu-json-volume
+          configMap:
+            name: k8s-ces-menu-json
