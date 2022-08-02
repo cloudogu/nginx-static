@@ -15,7 +15,7 @@ Docker docker = new Docker(this)
 
 // Configuration of repository
 repositoryOwner = "cloudogu"
-repositoryName = "k8s-static-webserver"
+repositoryName = "nginx-static"
 project = "github.com/${repositoryOwner}/${repositoryName}"
 
 // Configuration of branches
@@ -37,25 +37,37 @@ node('docker') {
             make 'clean'
         }
 
-        stage('Lint - Dockerfile') {
+        stage('Lint') {
             lintDockerfile()
         }
 
-        stage("Lint - k8s Resources") {
-            stageLintK8SResources()
+        stage('Shellcheck') {
+            shellCheck('./resources/startup.sh')
+        }
+
+        tage('Generate k8s Resources') {
+            docker.image("golang:${goVersion}")
+                    .mountJenkinsUser()
+                    .inside("--volume ${WORKSPACE}:/workdir -w /workdir") {
+                        make 'k8s-create-temporary-resource'
+                    }
+            archiveArtifacts 'target/make/k8s/*.yaml'
         }
 
         K3d k3d = new K3d(this, "${WORKSPACE}", "${WORKSPACE}/k3d", env.PATH)
+
         try {
+            String doguVersion = getDoguVersion(false)
+            GString sourceDeploymentYaml = "target/make/k8s/${repositoryName}_${doguVersion}.yaml"
+
             stage('Set up k3d cluster') {
                 k3d.startK3d()
             }
 
-            def repositoryNameImage
+            String imageName
             stage('Build & Push Image') {
-                def makefile = new Makefile(this)
-                String version = makefile.getVersion()
-                repositoryNameImage=k3d.buildAndPushToLocalRegistry("cloudogu/${repositoryName}", version)
+                String namespace = getDoguNamespace()
+                imageName = k3d.buildAndPushToLocalRegistry("${namespace}/${repositoryName}", doguVersion)
             }
 
             stage('Setup') {
@@ -65,19 +77,9 @@ node('docker') {
                 ])
             }
 
-            stage('Deploy') {
-                def sourceDeploymentYaml="k8s/${repositoryName}.yaml"
-                stage('Update development resources') {
-                    docker.image('mikefarah/yq:4.22.1')
-                            .mountJenkinsUser()
-                            .inside("--volume ${WORKSPACE}:/workdir -w /workdir") {
-                                sh "yq -i '(select(.kind == \"Deployment\").spec.template.spec.containers[]|select(.name == \"${repositoryName}\")).image=\"${repositoryNameImage}\"' ${sourceDeploymentYaml}"
-                    }
-                }
-
-                k3d.kubectl("apply -f ${sourceDeploymentYaml}")
+            stage('Deploy Dogu') {
+                k3d.installDogu(repositoryName, imageName, sourceDeploymentYaml)
             }
-
 
             stage('Wait for Ready Rollout') {
                 k3d.waitForDeploymentRollout(repositoryName, 300, 5)
@@ -137,27 +139,32 @@ void testStaticContentAccess(K3d k3d) {
     }
 }
 
-void stageLintK8SResources() {
-    String kubevalImage = "cytopia/kubeval:0.13"
-    docker
-            .image(kubevalImage)
-            .inside("-v ${WORKSPACE}/k8s:/data -t --entrypoint=")
-                    {
-                        sh "kubeval /data/${repositoryName}.yaml --ignore-missing-schemas"
-                    }
-}
-
 void stageAutomaticRelease() {
     if (gitflow.isReleaseBranch()) {
-        String releaseVersion = gitWrapper.getSimpleBranchName()
-        Makefile makefile = new Makefile(this)
-        String version = makefile.getVersion()
+        String releaseVersion = getDoguVersion(true)
+        String dockerReleaseVersion = getDoguVersion(false)
+        String namespace = getDoguNamespace()
+        String credentials = 'cesmarvin-setup'
+        def dockerImage
 
         stage('Build & Push Image') {
-            def dockerImage = docker.build("cloudogu/${repositoryName}:${version}")
+            dockerImage = docker.build("${namespace}/${repositoryName}:${dockerReleaseVersion}")
+            docker.withRegistry('https://registry.cloudogu.com/', credentials) {
+                dockerImage.push("${dockerReleaseVersion}")
+            }
+        }
 
-            docker.withRegistry('https://registry.hub.docker.com/', 'dockerHubCredentials') {
-                dockerImage.push("${version}")
+        stage('Push dogu.json') {
+            String doguJson = sh(script: "cat dogu.json", returnStdout: true)
+            HttpClient httpClient = new HttpClient(this, credentials)
+            result = httpClient.put("https://dogu.cloudogu.com/api/v2/dogus/${namespace}/${repositoryName}", "application/json", doguJson)
+            status = result["httpCode"]
+            body = result["body"]
+
+            if ((status as Integer) >= 400) {
+                echo "Error pushing dogu.json"
+                echo "${body}"
+                sh "exit 1"
             }
         }
 
@@ -166,19 +173,38 @@ void stageAutomaticRelease() {
         }
 
         stage('Regenerate resources for release') {
-            make 'k8s-create-temporary-resource'
+            new Docker(this)
+                    .image("golang:${goVersion}")
+                    .mountJenkinsUser()
+                    .inside("--volume ${WORKSPACE}:/go/src/${project} -w /go/src/${project}")
+                            {
+                                make 'k8s-create-temporary-resource'
+                            }
         }
 
         stage('Add Github-Release') {
-            GString targetOperatorResourceYaml = "target/make/k8s/${repositoryName}_${version}.yaml"
+            String doguVersion = getDoguVersion(false)
+            GString doguYaml = "target/make/k8s/${repositoryName}_${doguVersion}.yaml"
             releaseId = github.createReleaseWithChangelog(releaseVersion, changelog, productionReleaseBranch)
-            github.addReleaseAsset("${releaseId}", "${targetOperatorResourceYaml}")
-        }
-
-        stage('Add Github-Release') {
-            releaseId = github.createReleaseWithChangelog(releaseVersion, changelog, productionReleaseBranch)
+            github.addReleaseAsset("${releaseId}", "${doguYaml}")
         }
     }
+}
+
+String getDoguVersion(boolean withVersionPrefix) {
+    def doguJson = this.readJSON file: 'dogu.json'
+    String version = doguJson.Version
+
+    if (withVersionPrefix) {
+        return "v" + version
+    } else {
+        return version
+    }
+}
+
+String getDoguNamespace() {
+    def doguJson = this.readJSON file: 'dogu.json'
+    return doguJson.Name.split("/")[0]
 }
 
 void make(String makeArgs) {

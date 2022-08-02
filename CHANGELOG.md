@@ -1,4 +1,4 @@
-# k8s-static-webserver Changelog
+# nginx-static Changelog
 
 All notable changes to this project will be documented in this file.
 
