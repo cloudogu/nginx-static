@@ -23,6 +23,9 @@ productionReleaseBranch = "main"
 developmentBranch = "develop"
 currentBranch = "${env.BRANCH_NAME}"
 
+// Go version used fpr the makefiles to generate k8s resources
+goVersion = "1.18"
+
 node('docker') {
     timestamps {
         properties([
@@ -70,6 +73,17 @@ node('docker') {
 
             String imageName
             stage('Build & Push Image') {
+                // pull protected base image
+                docker.withRegistry('https://registry.cloudogu.com/', "cesmarvin-setup") {
+                    String currentBaseImage = sh(
+                        script: 'grep -m1 "registry.cloudogu.com/official/base" Dockerfile | sed "s|FROM ||g" | sed "s| as builder||g"',
+                        returnStdout: true
+                    )
+                    currentBaseImage = currentBaseImage.trim()
+                    image = docker.image(currentBaseImage)
+                    image.pull()
+                }
+
                 String namespace = getDoguNamespace()
                 imageName = k3d.buildAndPushToLocalRegistry("${namespace}/${repositoryName}", doguVersion)
             }
@@ -220,7 +234,7 @@ def executeShellTests() {
     def bats_custom_image = "cloudogu/bats"
     def bats_tag = "1.2.1"
 
-    def batsImage = docker.build("${bats_custom_image}:${bats_tag}", "--build-arg=BATS_BASE_IMAGE=${bats_base_image} --build-arg=BATS_TAG=${bats_tag} ./unitTests")
+    def batsImage = docker.build("${bats_custom_image}:${bats_tag}", "--build-arg=BATS_BASE_IMAGE=${bats_base_image} --build-arg=BATS_TAG=${bats_tag} ./batsTests")
     try {
         sh "mkdir -p target"
 
