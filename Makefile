@@ -7,6 +7,7 @@ include build/make/self-update.mk
 include build/make/release.mk
 include build/make/clean.mk
 include build/make/k8s-dogu.mk
+include bats.mk
 
 .PHONY: clean-k8s
 clean-k8s:
