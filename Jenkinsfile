@@ -234,7 +234,7 @@ def executeShellTests() {
     def bats_custom_image = "cloudogu/bats"
     def bats_tag = "1.2.1"
 
-    def batsImage = docker.build("${bats_custom_image}:${bats_tag}", "--build-arg=BATS_BASE_IMAGE=${bats_base_image} --build-arg=BATS_TAG=${bats_tag} ./batsTests")
+    def batsImage = docker.build("${bats_custom_image}:${bats_tag}", "--build-arg=BATS_BASE_IMAGE=${bats_base_image} --build-arg=BATS_TAG=${bats_tag} ./build/make/bats")
     try {
         sh "mkdir -p target"
 
