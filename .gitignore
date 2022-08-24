@@ -1,0 +1,9 @@
+# IntelliJ IDE specific files
+.idea
+
+# Makefiles: user specific environment variable
+.env
+# Makefiles: build folder
+target
+# Makefiles: utility binaries
+.bin
