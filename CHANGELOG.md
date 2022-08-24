@@ -7,4 +7,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-###
+### Added
+- Initial release for the nginx-static dogu. The dogu provides the following static content: ces-theme, ces-about page, warp menu
