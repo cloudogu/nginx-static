@@ -122,6 +122,44 @@ teardown() {
   assert_line "doguctl called with params [template /etc/nginx/nginx.conf.tpl /etc/nginx/nginx.conf]"
 }
 
+@test "configureMaintenanceModeSite - should template /var/www/html/errors/503.html with correct values" {
+  # given
+  source /workspace/resources/startup.sh
+  doguctl() {
+    local command="${*}"
+    if [ "${command}" == 'config -g -d {"title": "Service Unavailable", "text": "The EcoSystem is currently in maintenance mode."} maintenance' ]; then
+      echo '{"title": "Hello Test", "text": "This is a test."}'
+      return
+    fi
+
+    echo "doguctl called with params [$*]"
+  }
+  jq() {
+    local command="${*}"
+    if [ "${command}" == '-r .title' ]; then
+      echo 'Hello Test'
+      return
+    fi
+
+    if [ "${command}" == '-r .text' ]; then
+      echo 'This is a test.'
+      return
+    fi
+
+    echo "jq called with params [$*]"
+  }
+  sed() { echo "sed called with params [$*]"; }
+
+  # when
+  run configureMaintenanceModeSite
+
+  # then
+  assert_success
+  assert_line "[nginx-static][startup] Configure maintenance site..."
+  assert_line 'sed called with params [-i s|Service Unavailable|Hello Test|g /var/www/html/errors/503.html]'
+  assert_line 'sed called with params [-i s|The EcoSystem is currently in maintenance mode.|This is a test.|g /var/www/html/errors/503.html]'
+}
+
 @test "startNginx - should start the nginx server" {
   # given
   source /workspace/resources/startup.sh

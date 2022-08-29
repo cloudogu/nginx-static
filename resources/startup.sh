@@ -4,7 +4,7 @@ set -o nounset
 set -o pipefail
 
 # Prints the cloudogu logo as ASCI art.
-function printCloudoguLogo(){
+function printCloudoguLogo() {
   echo "                                     ./////,                    "
   echo "                                 ./////==//////*                "
   echo "                                ////.  ___   ////.              "
@@ -22,6 +22,27 @@ function printCloudoguLogo(){
 function log() {
   local message="${1}"
   echo "[nginx-static][startup] ${message}"
+}
+
+# Templates the maintenance mode site with the title and text provided in the etcd.
+function configureMaintenanceModeSite() {
+  log "Configure maintenance site..."
+
+  local entryJSON=""
+  entryJSON="$(doguctl config -g -d '{"title": "Service Unavailable", "text": "The EcoSystem is currently in maintenance mode."}' maintenance)"
+
+  if [ "${entryJSON}" == "" ]; then
+      return
+  fi
+
+  local title=""
+  title="$(echo "${entryJSON}" | jq -r ".title")"
+
+  local text=""
+  text="$(echo "${entryJSON}" | jq -r ".text")"
+
+  sed -i "s|Service Unavailable|${title}|g" /var/www/html/errors/503.html
+  sed -i "s|The EcoSystem is currently in maintenance mode.|${text}|g" /var/www/html/errors/503.html
 }
 
 # Configures the warp menu script as the menu.json gets mounted from a configmap into "/var/www/html/warp/menu"
@@ -86,5 +107,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   configureDefaultDogu
   configureCustomHtmlContent
   configureLogLevel
+  configureMaintenanceModeSite
   startNginx
 fi
