@@ -101,7 +101,6 @@ HEALTHCHECK CMD curl -f http://localhost:443 || exit 1
 
 # Expose ports.
 EXPOSE 80
-EXPOSE 443
 
 # Define default command.
 ENTRYPOINT ["/startup.sh"]
