@@ -37,12 +37,20 @@ function configureMaintenanceModeSite() {
 
   local title=""
   title="$(echo "${entryJSON}" | jq -r ".title")"
+  doguctl config maintenance/title "${title}"
 
   local text=""
   text="$(echo "${entryJSON}" | jq -r ".text")"
+  doguctl config maintenance/text "${text}"
 
-  sed -i "s|Service Unavailable|${title}|g" /var/www/html/errors/503.html
-  sed -i "s|The EcoSystem is currently in maintenance mode.|${text}|g" /var/www/html/errors/503.html
+  cp /var/www/html/errors/503.html /var/www/html/errors/503.html.tpl
+
+  sed -i 's|Service Unavailable|{{.Config.GetOrDefault "maintenance/title" "Title"}}|g' /var/www/html/errors/503.html.tpl
+  sed -i 's|The EcoSystem is currently in maintenance mode.|{{.Config.GetOrDefault "maintenance/text" "Text"}}|g' /var/www/html/errors/503.html.tpl
+
+  doguctl template /var/www/html/errors/503.html.tpl /var/www/html/errors/503.html
+
+  doguctl config --remove maintenance || true
 }
 
 # Configures the warp menu script as the menu.json gets mounted from a configmap into "/var/www/html/warp/menu"

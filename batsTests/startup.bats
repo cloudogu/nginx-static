@@ -149,6 +149,7 @@ teardown() {
     echo "jq called with params [$*]"
   }
   sed() { echo "sed called with params [$*]"; }
+  cp() { echo "cp called with params [$*]"; }
 
   # when
   run configureMaintenanceModeSite
@@ -156,8 +157,13 @@ teardown() {
   # then
   assert_success
   assert_line "[nginx-static][startup] Configure maintenance site..."
-  assert_line 'sed called with params [-i s|Service Unavailable|Hello Test|g /var/www/html/errors/503.html]'
-  assert_line 'sed called with params [-i s|The EcoSystem is currently in maintenance mode.|This is a test.|g /var/www/html/errors/503.html]'
+  assert_line "doguctl called with params [config maintenance/title Hello Test]"
+  assert_line "doguctl called with params [config maintenance/text This is a test.]"
+  assert_line "cp called with params [/var/www/html/errors/503.html /var/www/html/errors/503.html.tpl]"
+  assert_line 'sed called with params [-i s|Service Unavailable|{{.Config.GetOrDefault "maintenance/title" "Title"}}|g /var/www/html/errors/503.html.tpl]'
+  assert_line 'sed called with params [-i s|The EcoSystem is currently in maintenance mode.|{{.Config.GetOrDefault "maintenance/text" "Text"}}|g /var/www/html/errors/503.html.tpl]'
+  assert_line 'doguctl called with params [template /var/www/html/errors/503.html.tpl /var/www/html/errors/503.html]'
+  assert_line 'doguctl called with params [config --remove maintenance]'
 }
 
 @test "startNginx - should start the nginx server" {
