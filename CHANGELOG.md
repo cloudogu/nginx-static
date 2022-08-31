@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v1.23.1-1] - 2022-08-24
+## [v1.23.1-2] - 2022-08-31
+### Added
+- [#3] Template maintenance page at the start of the nginx dogu.
 
+## [v1.23.1-1] - 2022-08-24
 ### Added
 - Initial release for the nginx-static dogu. The dogu provides the following static content: ces-theme, ces-about page, warp menu
