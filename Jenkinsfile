@@ -89,7 +89,7 @@ node('docker') {
             }
 
             stage('Setup') {
-                k3d.setup("v0.8.0", [
+                k3d.setup("v0.8.1", [
                         dependencies: ["official/postfix", "k8s/nginx-ingress"],
                         defaultDogu : ""
                 ])
