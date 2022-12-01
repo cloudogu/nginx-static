@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.23.1-3] - 2022-12-01
+### Changed
+- [#5] Update `dogu.json` with new `menu-json` volume definition.
+
+### Removed
+- [#5] All static kubernetes resources including the `k8s` folder. These are no longer necessary as they are replaced 
+   by new `dogu.json` definitions.
+
 ## [v1.23.1-2] - 2022-08-31
 ### Added
 - [#3] Template maintenance page at the start of the nginx dogu.
