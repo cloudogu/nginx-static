@@ -86,7 +86,6 @@ COPY --from=builder /usr/sbin/nginx /usr/sbin/nginx
 
 # copy files
 COPY resources /
-COPY k8s /k8s
 
 # Volumes are used to avoid writing to containers writable layer https://docs.docker.com/storage/
 # Compared to the bind mounted volumes we declare in the dogu.json,

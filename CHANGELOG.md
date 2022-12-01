@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- [#5] Update `dogu.json` with new `menu-json` volume definition.
+
+### Removed
+- [#5] All static kubernetes resources including the `k8s` folder. These are no longer necessary as they are replaced 
+   by new `dogu.json` definitions.
 
 ## [v1.23.1-2] - 2022-08-31
 ### Added

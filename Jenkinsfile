@@ -1,6 +1,6 @@
 #!groovy
 
-@Library(['github.com/cloudogu/dogu-build-lib@v1.6.0', 'github.com/cloudogu/ces-build-lib@1.55.0'])
+@Library(['github.com/cloudogu/dogu-build-lib@v1.6.0', 'github.com/cloudogu/ces-build-lib@1.60.1'])
 import com.cloudogu.ces.cesbuildlib.*
 import com.cloudogu.ces.dogubuildlib.*
 
@@ -62,7 +62,6 @@ node('docker') {
         }
 
         K3d k3d = new K3d(this, "${WORKSPACE}", "${WORKSPACE}/k3d", env.PATH)
-
         try {
             String doguVersion = getDoguVersion(false)
             GString sourceDeploymentYaml = "target/make/k8s/${repositoryName}_${doguVersion}.yaml"
@@ -89,9 +88,9 @@ node('docker') {
             }
 
             stage('Setup') {
-                k3d.setup("v0.6.0", [
-                        dependencies: ["official/postfix", "official/plantuml", "k8s/nginx-ingress"],
-                        defaultDogu : "plantuml"
+                k3d.setup("v0.9.0", [
+                        dependencies: ["official/postfix", "k8s/nginx-ingress"],
+                        defaultDogu : ""
                 ])
             }
 
@@ -108,7 +107,10 @@ node('docker') {
             }
 
             stageAutomaticRelease()
-        } finally {
+        } catch(Exception e) {
+            k3d.collectAndArchiveLogs()
+            throw e
+        }finally {
             stage('Remove k3d cluster') {
                 k3d.deleteK3d()
             }

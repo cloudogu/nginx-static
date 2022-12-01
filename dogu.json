@@ -23,7 +23,7 @@
     {
       "type": "client",
       "name": "cesapp",
-      "version": "0.0.0"
+      "version": "<0.0.0"
     }
   ],
   "Configuration": [
@@ -67,6 +67,23 @@
       "Owner": "1000",
       "Group": "1000",
       "NeedsBackup": true
+    },
+    {
+      "Name": "menu-json",
+      "Path": "/var/www/html/warp/menu",
+      "Owner": "1000",
+      "Group": "1000",
+      "Clients": [
+        {
+          "Name": "k8s-dogu-operator",
+          "Params": {
+            "Type": "configmap",
+            "Content": {
+              "Name": "k8s-ces-menu-json"
+            }
+          }
+        }
+      ]
     }
   ],
   "HealthChecks": [
