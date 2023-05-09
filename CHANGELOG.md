@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Automatically refresh dogu is starting page
+
+### Changed
+- Use `wget` instead of `curl` to fix several CVEs
+- Update:
+  - base image to 3.15.8-1
+  - ces-build-lib to 1.64.2
+  - dogu-build-lib to 2.1.0
+  - makefiles to 7.5.0
+  - warp-menu to 1.7.2
+  - ces-theme to 0.7.1
+
+### Fixed
+- Show custom error pages for HTTP error codes
 
 ## [v1.23.1-3] - 2022-12-01
 ### Changed
