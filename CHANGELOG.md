@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - warp-menu to 1.7.2
   - ces-theme to 0.7.1
 
+### Fixed
+- Show custom error pages for HTTP error codes
+
 ## [v1.23.1-3] - 2022-12-01
 ### Changed
 - [#5] Update `dogu.json` with new `menu-json` volume definition.
