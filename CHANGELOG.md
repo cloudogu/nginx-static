@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.23.1-5] - 2023-06-27
+### Added
+- [#8] Configuration options for resource requirements
+- [#8] Defaults for CPU and memory requests
+
 ## [v1.23.1-4] - 2023-05-09
 ### Added
 - Automatically refresh dogu is starting page
