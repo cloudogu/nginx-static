@@ -23,7 +23,7 @@ RUN set -x -o errexit \
 FROM registry.cloudogu.com/official/base:3.15.8-1
 LABEL maintainer="hello@cloudogu.com" \
       NAME="nginx-static" \
-      VERSION="1.23.1-5"
+      VERSION="1.23.1-6"
 
 ENV WARP_MENU_VERSION=1.7.3 \
     WARP_MENU_TAR_SHA256="b3ed4b50b1b9a739a4430d88975b5e3030c5e542c0739ed6b72d7eb8fd9a7b18" \
