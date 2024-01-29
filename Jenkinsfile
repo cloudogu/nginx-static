@@ -55,7 +55,7 @@ node('docker') {
             docker.image("golang:${goVersion}")
                     .mountJenkinsUser()
                     .inside("--volume ${WORKSPACE}:/workdir -w /workdir") {
-                        make 'k8s-create-temporary-resource'
+                        make 'create-dogu-resource'
                     }
             archiveArtifacts 'target/make/k8s/*.yaml'
         }
@@ -63,7 +63,7 @@ node('docker') {
         K3d k3d = new K3d(this, "${WORKSPACE}", "${WORKSPACE}/k3d", env.PATH)
         try {
             String doguVersion = getDoguVersion(false)
-            GString sourceDeploymentYaml = "target/make/k8s/${repositoryName}_${doguVersion}.yaml"
+            GString sourceDeploymentYaml = "target/make/k8s/${repositoryName}.yaml"
 
             stage('Set up k3d cluster') {
                 k3d.startK3d()
