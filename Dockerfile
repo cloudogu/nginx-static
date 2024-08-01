@@ -1,4 +1,4 @@
-FROM registry.cloudogu.com/official/base:3.15.8-1 AS builder
+FROM registry.cloudogu.com/official/base:3.15.8-1 as builder
 
 # dockerfile is based on https://github.com/dockerfile/nginx and https://github.com/bellycard/docker-loadbalancer
 ENV NGINX_VERSION 1.23.1
