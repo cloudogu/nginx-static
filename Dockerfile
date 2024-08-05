@@ -1,8 +1,8 @@
 FROM registry.cloudogu.com/official/base:3.20.1-2 as builder
 
 # dockerfile is based on https://github.com/dockerfile/nginx and https://github.com/bellycard/docker-loadbalancer
-ENV NGINX_VERSION 1.23.1
-ENV NGINX_TAR_SHA256="5eee1bd1c23e3b9477a45532f1f36ae6178b43d571a9607e6953cef26d5df1e2"
+ENV NGINX_VERSION 1.26.1
+ENV NGINX_TAR_SHA256="f9187468ff2eb159260bfd53867c25ff8e334726237acf227b9e870e53d3e36b"
 
 COPY nginx-build /
 RUN set -x -o errexit \
