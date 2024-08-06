@@ -1,4 +1,4 @@
-FROM registry.cloudogu.com/official/base:3.20.1-2 as builder
+FROM registry.cloudogu.com/official/base:3.20.2-1 as builder
 
 # dockerfile is based on https://github.com/dockerfile/nginx and https://github.com/bellycard/docker-loadbalancer
 ENV NGINX_VERSION 1.26.1
@@ -20,7 +20,7 @@ RUN set -x -o errexit \
     && /build.sh \
     && rm -rf /var/cache/apk/* /build
 
-FROM registry.cloudogu.com/official/base:3.20.1-2
+FROM registry.cloudogu.com/official/base:3.20.2-1
 LABEL maintainer="hello@cloudogu.com" \
       NAME="nginx-static" \
       VERSION="1.23.1-6"
