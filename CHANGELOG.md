@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- [#15] Update Base-Image to 3.20.2-1 (includes a new version of doguctl)
+- [#12] Update nginx to 1.26.x
 
 ## [v1.23.1-6] - 2024-01-29
 ### Changed
