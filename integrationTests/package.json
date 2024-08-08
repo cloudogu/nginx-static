@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "cypress": "^13.13.2",
+    "@badeball/cypress-cucumber-preprocessor": "^16.0.0",
+    "@bahmutov/cy-api": "^2.2.4",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+    "@cloudogu/dogu-integration-test-library": "6.0.1",
+    "esbuild": "^0.17.17",
+    "typescript": "5.3.3"
+  },
+  "scripts": {
+    "open": "cypress open --config watchForFileChanges=false"
+  },
+  "devDependencies": {
+    "cypress-wait-until": "^3.0.1"
+  }
+}
