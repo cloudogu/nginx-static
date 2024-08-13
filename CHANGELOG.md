@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.23.1-8] - 2024-08-13
+### Changed
+- [#17] Update the default css-styles to use the new variable-names
+
+### Removed
+- [#17] Delete `add-whitelabeling-styles.js` which is no longer needed
+  - The styles are now added directly by nginx-ingress 
+
 ## [v1.23.1-7] - 2024-08-06
 ### Added
 - [#13] Default CSS Styles and Whitelabeling CSS Styles are being loaded now
