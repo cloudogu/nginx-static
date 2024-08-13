@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- [#17] Update the default css-styles to use the new variable-names
+
+### Removed
+- [#17] Delete `add-whitelabeling-styles.js` which is no longer needed
+  - The styles are now added directly by nginx-ingress 
 
 ## [v1.23.1-7] - 2024-08-06
 ### Added
