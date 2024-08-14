@@ -1,6 +1,6 @@
 {
   "Name": "k8s/nginx-static",
-  "Version": "1.23.1-8",
+  "Version": "1.26.1-1",
   "DisplayName": "Nginx Static",
   "Description": "Nginx Static is a webserver responsible to provide static content in the multi node version of the Cloudogu EcoSystem.",
   "Logo": "https://cloudogu.com/images/dogus/nginx.png",
