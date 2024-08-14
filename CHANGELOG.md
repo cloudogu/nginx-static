@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - [#15] Update Base-Image to 3.20.2-1 (includes a new version of doguctl)
-- [#12] Update nginx to 1.26.x
+- [#12] Update nginx to 1.26.1
 
 ## [v1.23.1-7] - 2024-08-06
 ### Added
