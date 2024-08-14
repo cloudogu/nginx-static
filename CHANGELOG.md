@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.26.1-1] - 2024-08-14
+- [#15] Update Base-Image to 3.20.2-1 (includes a new version of doguctl)
+- [#12] Update nginx to 1.26.1
+
 ## [v1.23.1-8] - 2024-08-13
 ### Changed
 - [#17] Update the default css-styles to use the new variable-names

@@ -1,8 +1,8 @@
-FROM registry.cloudogu.com/official/base:3.15.8-1 as builder
+FROM registry.cloudogu.com/official/base:3.20.2-1 as builder
 
 # dockerfile is based on https://github.com/dockerfile/nginx and https://github.com/bellycard/docker-loadbalancer
-ENV NGINX_VERSION 1.23.1
-ENV NGINX_TAR_SHA256="5eee1bd1c23e3b9477a45532f1f36ae6178b43d571a9607e6953cef26d5df1e2"
+ENV NGINX_VERSION 1.26.1
+ENV NGINX_TAR_SHA256="f9187468ff2eb159260bfd53867c25ff8e334726237acf227b9e870e53d3e36b"
 
 COPY nginx-build /
 RUN set -x -o errexit \
@@ -20,10 +20,10 @@ RUN set -x -o errexit \
     && /build.sh \
     && rm -rf /var/cache/apk/* /build
 
-FROM registry.cloudogu.com/official/base:3.15.8-1
+FROM registry.cloudogu.com/official/base:3.20.2-1
 LABEL maintainer="hello@cloudogu.com" \
       NAME="nginx-static" \
-      VERSION="1.23.1-8"
+      VERSION="1.26.1-1"
 
 ENV WARP_MENU_VERSION=1.7.3 \
     WARP_MENU_TAR_SHA256="b3ed4b50b1b9a739a4430d88975b5e3030c5e542c0739ed6b72d7eb8fd9a7b18" \
@@ -40,8 +40,6 @@ RUN apk upgrade \
     && apk --update add \
         openssl \
         pcre \
-        libcrypto1.1 \
-        libssl1.1 \
         musl \
         zlib
 
