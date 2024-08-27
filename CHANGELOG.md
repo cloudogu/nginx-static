@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- [#19] Redesign dogu-starting-page
+- Change UI language of the dogu-starting-page to german
 
 ## [v1.26.1-1] - 2024-08-14
 - [#15] Update Base-Image to 3.20.2-1 (includes a new version of doguctl)
