@@ -23,17 +23,20 @@ RUN set -x -o errexit \
 FROM registry.cloudogu.com/official/base:3.20.2-1
 LABEL maintainer="hello@cloudogu.com" \
       NAME="nginx-static" \
-      VERSION="1.26.1-2"
+      VERSION="1.26.1-3"
 
-ENV WARP_MENU_VERSION=1.7.3 \
-    WARP_MENU_TAR_SHA256="b3ed4b50b1b9a739a4430d88975b5e3030c5e542c0739ed6b72d7eb8fd9a7b18" \
+ENV WARP_MENU_VERSION=2.0.0 \
+    WARP_MENU_TAR_SHA256="51a1010ec0f82b634999e48976d7fec98e6eb574a4401a841cd53f8cd0e14040" \
     CES_ABOUT_VERSION=0.2.2 \
     CES_ABOUT_TAR_SHA256="9926649be62d8d4667b2e7e6d1e3a00ebec1c4bbc5b80a0e830f7be21219d496" \
     CES_THEME_VERSION=v0.7.1 \
     CES_THEME_TAR_SHA256="201013e417aad19572df5c5f6f9fb7053323cadb0d555da55541b1d27c2ef699" \
     SERVICE_TAGS="webapp" \
     SERVICE_LOCATION="/" \
-    SERVICE_PASS="/"
+    SERVICE_PASS="/" \
+    # Used in template to invalidate caches - do not remove. The release script will auto update this line
+    VERSION="1.26.1-3"
+
 
 # Install required packages
 RUN apk upgrade \
