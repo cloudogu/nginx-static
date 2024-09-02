@@ -56,17 +56,19 @@ teardown() {
   assert_line "[nginx-static][startup] Test Message"
 }
 
-@test "configureWarpMenuJson - should call doguctl to template our file" {
+@test "configureWarpMenu - should call doguctl to template our file" {
   # given
   source /workspace/resources/startup.sh
+  doguctl() { echo "doguctl called with params [$*]"; }
   sed() { echo "sed called with params [$*]"; }
 
   # when
-  run configureWarpMenuJson
+  run configureWarpMenu
 
   # then
   assert_success
   assert_line "[nginx-static][startup] Configure warp menu..."
+  assert_line "doguctl called with params [template /var/www/html/warp/add-warp-menu.js.tpl /var/www/html/warp/add-warp-menu.js]"
   assert_line "sed called with params [-i s|/warp/menu.json|/warp/menu/menu.json|g /var/www/html/warp/warp.js]"
 }
 
