@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- [#21] Update warp menu to v2.0.0
+- Make static asset urls dependent of the current dogu-version to invalidate caches
 
 ## [v1.26.1-2] - 2024-08-27
 ### Changed

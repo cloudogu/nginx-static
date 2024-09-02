@@ -1,14 +1,13 @@
 import {Then} from "@badeball/cypress-cucumber-preprocessor";
 
 Then(/^the user opens the warp menu$/, function () {
-    cy.get('*[class^=" warp-menu-column-toggle"]').children('*[id^="warp-menu-warpbtn"]').click();
+    cy.get("#warp-menu-shadow-host").shadow().find("#warp-toggle").click({force: true});
 });
 
 Then(/^the user checks link corresponding to the static page$/, function () {
-    cy.get('*[class^=" warp-menu-shift-container"]')
-        .children('*[class^=" warp-menu-category-list"]')
-        .contains(Cypress.env('nameOfStaticPageLinkInWarpMenu'))
-        .should('have.attr', 'target', '_top');
+    cy.get("#warp-menu-shadow-host").shadow().find(`a[role=menuitem][href="${Cypress.env('staticPagePath')}"]`)
+        .should('have.attr', 'target', '_top')
+        .contains(`${Cypress.env('nameOfStaticPageLinkInWarpMenu')}`);
 });
 
 Then("a static HTML page gets displayed", function () {
