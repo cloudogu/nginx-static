@@ -23,7 +23,7 @@ RUN set -x -o errexit \
 FROM registry.cloudogu.com/official/base:3.20.2-1
 LABEL maintainer="hello@cloudogu.com" \
       NAME="nginx-static" \
-      VERSION="1.26.1-3"
+      VERSION="1.26.1-4"
 
 ENV WARP_MENU_VERSION=2.0.0 \
     WARP_MENU_TAR_SHA256="51a1010ec0f82b634999e48976d7fec98e6eb574a4401a841cd53f8cd0e14040" \
@@ -35,7 +35,7 @@ ENV WARP_MENU_VERSION=2.0.0 \
     SERVICE_LOCATION="/" \
     SERVICE_PASS="/" \
     # Used in template to invalidate caches - do not remove. The release script will auto update this line
-    VERSION="1.26.1-3"
+    VERSION="1.26.1-4"
 
 
 # Install required packages
