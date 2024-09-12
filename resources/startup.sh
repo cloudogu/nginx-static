@@ -43,11 +43,6 @@ function configureMaintenanceModeSite() {
   text="$(echo "${entryJSON}" | jq -r ".text")"
   doguctl config maintenance/text "${text}"
 
-  cp /var/www/html/errors/503.html /var/www/html/errors/503.html.tpl
-
-  sed -i 's|Service Unavailable|{{.Config.GetOrDefault "maintenance/title" "Title"}}|g' /var/www/html/errors/503.html.tpl
-  sed -i 's|The EcoSystem is currently in maintenance mode.|{{.Config.GetOrDefault "maintenance/text" "Text"}}|g' /var/www/html/errors/503.html.tpl
-
   doguctl template /var/www/html/errors/503.html.tpl /var/www/html/errors/503.html
 
   doguctl config --remove maintenance || true
