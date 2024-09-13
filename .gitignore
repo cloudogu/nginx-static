@@ -7,3 +7,4 @@
 target
 # Makefiles: utility binaries
 .bin
+theme-build/node_modules
