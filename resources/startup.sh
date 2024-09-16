@@ -29,7 +29,7 @@ function configureMaintenanceModeSite() {
   log "Configure maintenance site..."
 
   local entryJSON=""
-  entryJSON="$(doguctl config -g -d '{"title": "Service Unavailable", "text": "The EcoSystem is currently in maintenance mode."}' maintenance)"
+  entryJSON="$(doguctl config -g -d '{"title": "Wartungsmodus", "text": "Das EcoSystem ist aktuell nicht erreichbar - Bitte warten Sie"}' maintenance)"
 
   if [ "${entryJSON}" == "" ]; then
       return
@@ -42,11 +42,6 @@ function configureMaintenanceModeSite() {
   local text=""
   text="$(echo "${entryJSON}" | jq -r ".text")"
   doguctl config maintenance/text "${text}"
-
-  cp /var/www/html/errors/503.html /var/www/html/errors/503.html.tpl
-
-  sed -i 's|Service Unavailable|{{.Config.GetOrDefault "maintenance/title" "Title"}}|g' /var/www/html/errors/503.html.tpl
-  sed -i 's|The EcoSystem is currently in maintenance mode.|{{.Config.GetOrDefault "maintenance/text" "Text"}}|g' /var/www/html/errors/503.html.tpl
 
   doguctl template /var/www/html/errors/503.html.tpl /var/www/html/errors/503.html
 
