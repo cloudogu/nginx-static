@@ -6,10 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [v1.26.1-7] - 2024-09-26
 ### Added
 - Animated image for dogu-starting-page
+
 ### Changed
-- [29] Use animation to show automatic reload of Dogu
+- [#29] Use animation to show automatic reload of Dogu
 
 ## [v1.26.1-6] - 2024-09-18
 ### Changed
