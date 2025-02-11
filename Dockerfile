@@ -18,8 +18,10 @@ RUN node template-error-pages.js ${WORKDIR}/resources/var/www/html/errors/error-
 FROM registry.cloudogu.com/official/base:3.20.2-1 as builder
 
 # dockerfile is based on https://github.com/dockerfile/nginx and https://github.com/bellycard/docker-loadbalancer
-ENV NGINX_VERSION 1.26.1
-ENV NGINX_TAR_SHA256="f9187468ff2eb159260bfd53867c25ff8e334726237acf227b9e870e53d3e36b"
+#ENV NGINX_VERSION 1.26.2
+#ENV NGINX_TAR_SHA256="627fe086209bba80a2853a0add9d958d7ebbdffa1a8467a5784c9a6b4f03d738"
+ENV NGINX_VERSION 1.26.3
+ENV NGINX_TAR_SHA256="69ee2b237744036e61d24b836668aad3040dda461fe6f570f1787eab570c75aa"
 
 COPY nginx-build /
 RUN set -x -o errexit \
@@ -42,10 +44,10 @@ LABEL maintainer="hello@cloudogu.com" \
       NAME="nginx-static" \
       VERSION="1.26.1-7"
 
-ENV WARP_MENU_VERSION=2.0.0 \
-    WARP_MENU_TAR_SHA256="51a1010ec0f82b634999e48976d7fec98e6eb574a4401a841cd53f8cd0e14040" \
-    CES_ABOUT_VERSION=0.2.2 \
-    CES_ABOUT_TAR_SHA256="9926649be62d8d4667b2e7e6d1e3a00ebec1c4bbc5b80a0e830f7be21219d496" \
+ENV WARP_MENU_VERSION=2.0.3 \
+    WARP_MENU_TAR_SHA256="8dfd023579728b6786bdb4664fb6d3e629717d9d2d27cdd4b365f9a844f1858c" \
+    CES_ABOUT_VERSION="0.7.0" \
+    CES_ABOUT_TAR_SHA256="fcfdfb86dac75d5ae751cc0e8c3436ecee12f0d5ed830897c4f61029ae1df27e" \
     SERVICE_TAGS="webapp" \
     SERVICE_LOCATION="/" \
     SERVICE_PASS="/" \
@@ -71,7 +73,7 @@ RUN set -x \
  && mkdir -p /var/log/nginx
 
 # install ces-about page
-RUN wget https://github.com/cloudogu/ces-about/releases/download/v${CES_ABOUT_VERSION}/ces-about-v${CES_ABOUT_VERSION}.tar.gz -q -O ces-about-v${CES_ABOUT_VERSION}.tar.gz \
+RUN wget https://github.com/cloudogu/ces-about/releases/download/v${CES_ABOUT_VERSION}/ces-about_v${CES_ABOUT_VERSION}.tar.gz -q -O ces-about-v${CES_ABOUT_VERSION}.tar.gz \
  && echo "${CES_ABOUT_TAR_SHA256} *ces-about-v${CES_ABOUT_VERSION}.tar.gz" | sha256sum -c - \
  && tar -xzvf ces-about-v${CES_ABOUT_VERSION}.tar.gz -C /var/www/html \
  && sed -i 's@base href=".*"@base href="/info/"@' /var/www/html/info/index.html
