@@ -5,6 +5,8 @@ Im Folgenden finden Sie die Release Notes für das Nginx-Static-Dogu.
 Technische Details zu einem Release finden Sie im zugehörigen [Changelog](https://docs.cloudogu.com/de/docs/dogus/nginx-static/CHANGELOG/).
 
 ## [Unreleased]
+
+## [v1.26.3-1] - 2025-02-14
 - Nginx, CES-About und das Warp-Menü wurden aktualisiert
 
 ## Release 1.26.1-6
