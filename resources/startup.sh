@@ -24,7 +24,7 @@ function log() {
   echo "[nginx-static][startup] ${message}"
 }
 
-# Templates the maintenance mode site with the title and text provided in the etcd.
+# Templates the maintenance mode site with the title and text provided in the ces-configuration.
 function configureMaintenanceModeSite() {
   log "Configure maintenance site..."
 
@@ -87,15 +87,15 @@ function configureCustomHtmlContent() {
 function configureLogLevel() {
   log "Configure logging..."
 
-  local etcdLogLevel=""
-  etcdLogLevel="$(doguctl config logging/root --default "WARN")"
-  log "Found etcd log level: ${etcdLogLevel}"
+  local logLevel=""
+  logLevel="$(doguctl config logging/root --default "WARN")"
+  log "Found log level: ${logLevel}"
 
   # The log level is exported for `doguctl template`
-  # The format is almost the same, except the case. The etcd-format is all uppercase, the configuration format
-  # is all lower case.
+  # The format is almost the same, except the case. The ces-configuration-format is all uppercase,
+  # the nginx-configuration-format is all lower case.
   # bashsupport disable=BP2001
-  export LOG_LEVEL="${etcdLogLevel,,}"
+  export LOG_LEVEL="${logLevel,,}"
 
   log "Set dogu log level to : ${LOG_LEVEL}"
   doguctl template /etc/nginx/nginx.conf.tpl /etc/nginx/nginx.conf

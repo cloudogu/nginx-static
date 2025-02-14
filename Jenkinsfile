@@ -1,5 +1,5 @@
 #!groovy
-@Library(['github.com/cloudogu/dogu-build-lib@v2.3.1', 'github.com/cloudogu/ces-build-lib@2.3.0'])
+@Library(['github.com/cloudogu/dogu-build-lib@v3.1.0', 'github.com/cloudogu/ces-build-lib@4.0.1'])
 import com.cloudogu.ces.cesbuildlib.*
 import com.cloudogu.ces.dogubuildlib.*
 
@@ -88,13 +88,7 @@ node('docker') {
             }
 
             stage('Setup') {
-                k3d.configureComponents([
-                    // TODO Delete blueprint-operator and crd null values if the component runs in multinode.
-                    "k8s-blueprint-operator": null,
-                    "k8s-blueprint-operator-crd": null,
-                ])
-                // TODO Delete dependencies and use default if the usermgt dogu runs in multinode.
-                k3d.setup("2.0.1", ["dependencies": ["official/ldap", "official/cas", "k8s/nginx-ingress", "k8s/nginx-static", "official/postfix"], defaultDogu : ""])
+                k3d.setup("3.3.1")
             }
 
             stage('Deploy Dogu') {

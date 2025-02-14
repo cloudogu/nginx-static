@@ -119,7 +119,7 @@ teardown() {
   # then
   assert_success
   assert_line "[nginx-static][startup] Configure logging..."
-  assert_line "[nginx-static][startup] Found etcd log level: DEBUG"
+  assert_line "[nginx-static][startup] Found log level: DEBUG"
   assert_line "[nginx-static][startup] Set dogu log level to : debug"
   assert_line "doguctl called with params [template /etc/nginx/nginx.conf.tpl /etc/nginx/nginx.conf]"
 }

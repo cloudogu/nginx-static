@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- [#31] Update warp menu to v2.0.3
+- [#31] Update Ces-About to v0.7.0
+- [#31] Update Nginx to v1.26.3
+- [#31] Update Makefiles to v9.5.3
+- [#31] Update dogu-build-lib to v3.1.0
+- [#31] Update ces-build-lib to v4.0.1
 
 ## [v1.26.1-7] - 2024-09-26
 ### Added
