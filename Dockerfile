@@ -18,8 +18,6 @@ RUN node template-error-pages.js ${WORKDIR}/resources/var/www/html/errors/error-
 FROM registry.cloudogu.com/official/base:3.20.2-1 as builder
 
 # dockerfile is based on https://github.com/dockerfile/nginx and https://github.com/bellycard/docker-loadbalancer
-#ENV NGINX_VERSION 1.26.2
-#ENV NGINX_TAR_SHA256="627fe086209bba80a2853a0add9d958d7ebbdffa1a8467a5784c9a6b4f03d738"
 ENV NGINX_VERSION 1.26.3
 ENV NGINX_TAR_SHA256="69ee2b237744036e61d24b836668aad3040dda461fe6f570f1787eab570c75aa"
 
