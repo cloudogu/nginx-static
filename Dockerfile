@@ -71,10 +71,12 @@ RUN set -x \
  && mkdir -p /var/log/nginx
 
 # install ces-about page
-RUN wget https://github.com/cloudogu/ces-about/releases/download/v${CES_ABOUT_VERSION}/ces-about_v${CES_ABOUT_VERSION}.tar.gz -q -O ces-about-v${CES_ABOUT_VERSION}.tar.gz \
- && echo "${CES_ABOUT_TAR_SHA256} *ces-about-v${CES_ABOUT_VERSION}.tar.gz" | sha256sum -c - \
- && tar -xzvf ces-about-v${CES_ABOUT_VERSION}.tar.gz -C /var/www/html \
- && sed -i 's@base href=".*"@base href="/info/"@' /var/www/html/info/index.html
+RUN wget -O /tmp/ces-about-v${CES_ABOUT_VERSION}.tar.gz https://github.com/cloudogu/ces-about/releases/download/v${CES_ABOUT_VERSION}/ces-about_v${CES_ABOUT_VERSION}.tar.gz \
+    && echo "${CES_ABOUT_TAR_SHA256} */tmp/ces-about-v${CES_ABOUT_VERSION}.tar.gz" | sha256sum -c - \
+    && tar -xzvf /tmp/ces-about-v${CES_ABOUT_VERSION}.tar.gz -C /var/www/html \
+    && mkdir -p /etc/nginx/include.d/ \
+    && cp /var/www/html/routes/ces-about-routes.conf /etc/nginx/include.d/ \
+    && rm -rf /var/www/html/routes
 
 # install warp menu
 RUN wget https://github.com/cloudogu/warp-menu/releases/download/v${WARP_MENU_VERSION}/warp-v${WARP_MENU_VERSION}.zip -q -O /tmp/warp.zip \
