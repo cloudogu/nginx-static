@@ -6,6 +6,10 @@ Technical details on a release can be found in the corresponding [Changelog](htt
 
 ## [Unreleased]
 
+## [v1.26.3-2] - 2025-04-23
+### Changed
+- Usage of memory and CPU was optimized for the Kubernetes Mutlinode environment.
+
 ## [v1.26.3-1] - 2025-02-14
 - Updated Nginx, CES-About and Warp-Menu
 
