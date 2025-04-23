@@ -5,6 +5,8 @@ Below you will find the release notes for the Nginx-Static-Dogu.
 Technical details on a release can be found in the corresponding [Changelog](https://docs.cloudogu.com/de/docs/dogus/nginx-static/CHANGELOG/).
 
 ## [Unreleased]
+### Changed
+- Usage of memory and CPU was optimized for the Kubernetes Mutlinode environment.
 
 ## [v1.26.3-1] - 2025-02-14
 - Updated Nginx, CES-About and Warp-Menu
