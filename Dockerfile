@@ -2,7 +2,7 @@ FROM node:lts-alpine as templating
 
 ENV WORKDIR=/template \
     # Used in template to invalidate caches - do not remove. The release script will auto update this line
-    VERSION="1.26.3-1"
+    VERSION="1.26.3-2"
 
 RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
@@ -40,7 +40,7 @@ RUN set -x -o errexit \
 FROM registry.cloudogu.com/official/base:3.20.2-1
 LABEL maintainer="hello@cloudogu.com" \
       NAME="nginx-static" \
-      VERSION="1.26.3-1"
+      VERSION="1.26.3-2"
 
 ENV WARP_MENU_VERSION=2.0.3 \
     WARP_MENU_TAR_SHA256="8dfd023579728b6786bdb4664fb6d3e629717d9d2d27cdd4b365f9a844f1858c" \
@@ -50,7 +50,7 @@ ENV WARP_MENU_VERSION=2.0.3 \
     SERVICE_LOCATION="/" \
     SERVICE_PASS="/" \
     # Used in template to invalidate caches - do not remove. The release script will auto update this line
-    VERSION="1.26.3-1"
+    VERSION="1.26.3-2"
 
 
 # Install required packages
