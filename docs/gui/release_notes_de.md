@@ -6,6 +6,10 @@ Technische Details zu einem Release finden Sie im zugehörigen [Changelog](https
 
 ## [Unreleased]
 
+## [v1.26.3-2] - 2025-04-23
+### Changed
+- Die Verwendung von Speicher und CPU wurden für die Kubernetes-Multinode-Umgebung optimiert.
+
 ## [v1.26.3-1] - 2025-02-14
 - Nginx, CES-About und das Warp-Menü wurden aktualisiert
 

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.26.3-2] - 2025-04-23
+
+### Changed
+- [#33] Set sensible resource requests and limits
+
 ## [v1.26.3-1] - 2025-02-14
 ### Changed
 - [#31] Update warp menu to v2.0.3

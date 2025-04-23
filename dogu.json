@@ -1,6 +1,6 @@
 {
   "Name": "k8s/nginx-static",
-  "Version": "1.26.3-1",
+  "Version": "1.26.3-2",
   "DisplayName": "Nginx Static",
   "Description": "Nginx Static is a webserver responsible to provide static content in the multi node version of the Cloudogu EcoSystem.",
   "Logo": "https://cloudogu.com/images/dogus/nginx.png",
@@ -58,7 +58,8 @@
       "Optional": true,
       "Validation": {
         "Type": "BINARY_MEASUREMENT"
-      }
+      },
+      "Default": "101m"
     },
     {
       "Name": "container_config/memory_request",
@@ -67,7 +68,7 @@
       "Validation": {
         "Type": "BINARY_MEASUREMENT"
       },
-      "Default": "20m"
+      "Default": "101m"
     },
     {
       "Name": "container_config/cpu_core_limit",
@@ -78,7 +79,7 @@
       "Name": "container_config/cpu_core_request",
       "Description": "Requests the container's minimal CPU core requirement. Use a positive floating value describing a fraction of 1 CPU core. When you define a value of '0.5', you are requesting half as much CPU time compared to if you asked for '1.0' CPU.",
       "Optional": true,
-      "Default": "0.01"
+      "Default": "0.015"
     },
     {
       "Name": "container_config/storage_limit",
